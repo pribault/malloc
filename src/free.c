@@ -5,69 +5,48 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pribault <pribault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/07/12 15:20:52 by pribault          #+#    #+#             */
-/*   Updated: 2017/07/22 17:40:42 by pribault         ###   ########.fr       */
+/*   Created: 2018/03/08 23:30:57 by pribault          #+#    #+#             */
+/*   Updated: 2018/03/09 23:27:51 by pribault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_malloc.h"
-#include "structs.h"
 #include "prototypes.h"
 
-char	is_in_alloc(t_alloc *alloc, void *ptr)
-{
-	if (ptr >= alloc->ptr && ptr < alloc->ptr + alloc->size)
-		return (1);
-	return (0);
-}
-
-char	search_and_free(t_alloc **head, void *ptr, char state)
+t_bool	free_in_zone(t_zone *zone, void *ptr)
 {
 	t_alloc	*alloc;
-	t_alloc	*del;
+	t_alloc	*prev;
+	t_alloc	*next;
 
-	alloc = *head;
-	if (!alloc)
-		return (0);
-	while (!is_in_alloc(alloc, ptr) && alloc->next &&
-	!is_in_alloc(alloc->next, ptr))
-		alloc = alloc->next;
-	if (is_in_alloc(alloc, ptr))
+	prev = NULL;
+	alloc = get_in_zone(zone, &zone[1], sizeof(t_zone));
+	while (alloc)
 	{
-		*head = alloc->next;
-		del = alloc;
+		if (ptr >= (void*)&alloc[1] && ptr < (void*)&alloc[1] + alloc->size)
+		{
+			if (alloc->type != TYPE_ALLOC)
+				return (FT_FALSE);
+			if ((next = get_in_zone(zone, (void*)&alloc[1] + alloc->size,
+				sizeof(t_alloc))) && next->type == TYPE_FREE)
+				alloc->size += (next->size + sizeof(t_alloc));
+			if (prev && prev->type == TYPE_FREE)
+				prev->size += (alloc->size + sizeof(t_alloc));
+			alloc->type = TYPE_FREE;
+			return (FT_TRUE);
+		}
+		prev = alloc;
+		alloc = get_in_zone(zone, (void*)&alloc[1] + alloc->size, sizeof(t_alloc));
 	}
-	else if (alloc->next && is_in_alloc(alloc->next, ptr))
-	{
-		del = alloc->next;
-		alloc->next = del->next;
-	}
-	else
-		return ((long)malloc_error(2));
-	if (state)
-		munmap(del->ptr, del->size);
-	munmap(del, sizeof(t_alloc));
-	return (1);
+	return (FT_FALSE);
 }
 
-void	ft_free(void *ptr)
+t_bool	free_in_zones(t_zone *zone, void *ptr)
 {
-	t_zone	*zone;
-
-	if (search_and_free(&g_env.large, ptr, 1))
-		return ;
-	zone = g_env.tiny;
 	while (zone)
 	{
-		if (search_and_free(&zone->allocs, ptr, 0))
-			return ;
+		if (ptr >= (void*)&zone[1] && ptr < (void*)&zone[1] + zone->size)
+			return (free_in_zone(zone, ptr));
 		zone = zone->next;
 	}
-	zone = g_env.small;
-	while (zone)
-	{
-		if (search_and_free(&zone->allocs, ptr, 0))
-			return ;
-		zone = zone->next;
-	}
+	return (FT_FALSE);
 }
