@@ -6,7 +6,7 @@
 /*   By: pribault <pribault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/03 16:13:23 by pribault          #+#    #+#             */
-/*   Updated: 2018/03/08 23:01:36 by pribault         ###   ########.fr       */
+/*   Updated: 2018/03/10 13:19:14 by pribault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # include <sys/mman.h>
 # include <inttypes.h>
 # include "ft_printf.h"
-# include "malloc.h"
 
 /*
 ** macros

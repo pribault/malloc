@@ -6,22 +6,23 @@
 /*   By: pribault <pribault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/07 09:58:06 by pribault          #+#    #+#             */
-/*   Updated: 2018/03/10 12:27:50 by pribault         ###   ########.fr       */
+/*   Updated: 2018/03/10 15:19:11 by pribault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prototypes.h"
 #include <stdio.h>
 
-t_env	g_env = {NULL, NULL, NULL, PTHREAD_MUTEX_INITIALIZER, {
-	"\e[38;5;88m\e[1m",
-	"\e[38;5;208m\e[1m",
-	"\e[38;5;32m\e[1m",
-	"\e[0m",
-	"\e[38;5;250m",
-	"\e[38;5;14m",
-	"\e[38;5;240m"
-}};
+t_env	g_env = {NULL, NULL, NULL, PTHREAD_MUTEX_INITIALIZER,
+	{
+		"\e[38;5;88m\e[1m",
+		"\e[38;5;208m\e[1m",
+		"\e[38;5;32m\e[1m",
+		"\e[0m",
+		"\e[38;5;250m",
+		"\e[38;5;14m",
+		"\e[38;5;240m"}
+};
 
 void	*unlock_and_return(void *ptr)
 {
@@ -50,8 +51,8 @@ void	*malloc(size_t size)
 	{
 		if (!g_env.large)
 			return (unlock_and_return(get_allocation(g_env.large =
-				create_zone(size, "LARGE"), size)));
-		return (unlock_and_return(allocate_large(g_env.large, size)));
+			create_zone(size, "LARGE"), size)));
+			return (unlock_and_return(allocate_large(g_env.large, size)));
 	}
 	return (unlock_and_return(NULL));
 }

@@ -6,12 +6,14 @@
 /*   By: pribault <pribault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/07 13:04:57 by pribault          #+#    #+#             */
-/*   Updated: 2018/03/10 11:09:46 by pribault         ###   ########.fr       */
+/*   Updated: 2018/03/10 13:20:53 by pribault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
+
+# include <pthread.h>
 
 # define TINY				64
 # define SMALL				128

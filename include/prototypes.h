@@ -6,7 +6,7 @@
 /*   By: pribault <pribault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/07 14:34:59 by pribault          #+#    #+#             */
-/*   Updated: 2018/03/10 11:39:25 by pribault         ###   ########.fr       */
+/*   Updated: 2018/03/10 13:47:14 by pribault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 # include "malloc.h"
 # include "structs.h"
 # include <sys/mman.h>
-# include <pthread.h>
 
 void	malloc_error(int error, void *param);
+void	*unlock_and_return(void *ptr);
 
 void	*allocate_large(t_zone *zone, size_t size);
 
@@ -32,6 +32,7 @@ void	*get_allocation(t_zone *zone, size_t size);
 void	claim_allocation(t_alloc *alloc, size_t size);
 
 void	*realloc_in_zones(t_zone *zone, void *ptr, size_t size);
+void	*reallocf_in_zones(t_zone *zone, void *ptr, size_t size);
 void	*realloc_in_zone(t_zone *zone, t_alloc *prev, t_alloc *alloc,
 		size_t size);
 t_bool	free_in_zones(t_zone *zone, void *ptr);

@@ -6,7 +6,7 @@
 /*   By: pribault <pribault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/08 23:02:19 by pribault          #+#    #+#             */
-/*   Updated: 2018/03/08 23:07:40 by pribault         ###   ########.fr       */
+/*   Updated: 2018/03/10 15:01:21 by pribault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@ void	malloc_error(int error, void *param)
 	if ((debug = getenv("MALLOC_DEBUG")))
 		level = ft_atou(debug);
 	else
-		level = 3;
+		level = 0;
+	pthread_mutex_unlock(&g_env.mutex);
 	if (level & 1)
 		ft_error(2, error, param);
+	pthread_mutex_lock(&g_env.mutex);
 	if (level & 2)
 		abort();
 }

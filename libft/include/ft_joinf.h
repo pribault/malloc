@@ -6,7 +6,7 @@
 /*   By: pribault <pribault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/12 11:39:59 by pribault          #+#    #+#             */
-/*   Updated: 2018/03/09 08:50:05 by pribault         ###   ########.fr       */
+/*   Updated: 2018/03/10 14:59:17 by pribault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	fill_string(va_list va, const char *format, char *new);
 void	print_number(va_list va, char *new, size_t *j, char *base);
 size_t	get_number_len(va_list va, char *base);
 
+void	print_unsigned_base_join(va_list va, char *new, size_t *j, char *base);
 size_t	get_unsigned_len(va_list va, char *base);
 
 void	print_string(va_list va, char *new, size_t *j);

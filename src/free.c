@@ -6,7 +6,7 @@
 /*   By: pribault <pribault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/08 23:30:57 by pribault          #+#    #+#             */
-/*   Updated: 2018/03/09 23:27:51 by pribault         ###   ########.fr       */
+/*   Updated: 2018/03/10 15:18:29 by pribault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ t_bool	free_in_zone(t_zone *zone, void *ptr)
 			return (FT_TRUE);
 		}
 		prev = alloc;
-		alloc = get_in_zone(zone, (void*)&alloc[1] + alloc->size, sizeof(t_alloc));
+		alloc = get_in_zone(zone, (void*)&alloc[1] + alloc->size,
+		sizeof(t_alloc));
 	}
 	return (FT_FALSE);
 }

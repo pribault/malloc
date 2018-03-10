@@ -6,7 +6,7 @@
 /*   By: pribault <pribault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/10 10:10:58 by pribault          #+#    #+#             */
-/*   Updated: 2018/03/10 11:21:47 by pribault         ###   ########.fr       */
+/*   Updated: 2018/03/10 13:24:36 by pribault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static void	*realloc_2(t_alloc *prev, t_alloc *alloc, size_t size)
 	t_alloc	*tmp;
 
 	prev->type = TYPE_ALLOC;
+	ft_memmove(&prev[1], &alloc[1], alloc->size);
 	if (prev->size + sizeof(t_alloc) + alloc->size - size >=
 		sizeof(t_alloc))
 	{
@@ -69,6 +70,7 @@ static void	*realloc_4(t_alloc *prev, t_alloc *next, t_alloc *alloc,
 	t_alloc	*tmp;
 
 	prev->type = TYPE_ALLOC;
+	ft_memmove(&prev[1], &alloc[1], alloc->size);
 	if (2 * sizeof(t_alloc) + prev->size + alloc->size + next->size -
 		size >= sizeof(t_alloc))
 	{
