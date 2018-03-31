@@ -15,7 +15,7 @@ INC_DIR =	include
 SRC =	malloc.c show_alloc.c zone.c\
 		get.c allocation.c error.c\
 		free.c realloc.c realloc_2.c\
-		malloc_2.c
+		malloc_2.c log.c
 OBJ =	$(SRC:%.c=$(OBJ_DIR)/%.o)
 INC =	malloc.h prototypes.h structs.h
 
@@ -23,7 +23,7 @@ INCLUDE =	$(INC:%.h=$(INC_DIR)/%.h)
 
 LIBFT =	libft
 
-.PHONY: clean fclean all re norme newline $(LIBFT)/libft.so
+.PHONY: clean fclean all re norme newline $(LIBFT)/libft.a
 
 .SILENT:
 
@@ -32,7 +32,7 @@ all: $(NAME)
 newline:
 	@echo "\033[38;5;166mft_malloc\033[0m\n"
 
-$(LIBFT)/libft.so:
+$(LIBFT)/libft.a:
 	@make -C $(LIBFT)
 
 $(OBJ_DIR):
@@ -42,7 +42,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INCLUDE) | $(OBJ_DIR)
 	@echo "\033[1A\033[K\033[38;5;226mmaking $@\033[0m"
 	@$(CC) $(FLAGS) -fPIC -I include -I $(LIBFT)/include -o $@ -c $<
 
-$(NAME): $(LIBFT)/libft.so newline $(OBJ)
+$(NAME): $(LIBFT)/libft.a newline $(OBJ)
 	@echo "\033[1A\033[K\033[38;5;214mmaking $@\033[0m"
 	@$(CC) $(FLAGS) -shared -I include -I $(LIBFT)/include -o $(NAME) $(OBJ) -L $(LIBFT) -lft -lpthread
 	@ln -sf $(NAME) $(LINK)

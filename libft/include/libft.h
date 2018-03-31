@@ -6,7 +6,7 @@
 /*   By: pribault <pribault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/03 16:13:23 by pribault          #+#    #+#             */
-/*   Updated: 2018/03/10 13:19:14 by pribault         ###   ########.fr       */
+/*   Updated: 2018/03/31 17:01:29 by pribault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@
 
 # define DEFAULT_VECTOR	(t_vector){0, 0, 0, NULL}
 
+# define DEFAULT_BUFFER	(t_circ_buffer){0, 0, 0, 0, 0, 0, 0, 0, ALLOC_MALLOC}
+
 /*
 ** structures
 */
@@ -62,6 +64,25 @@ typedef struct		s_vector
 	size_t			n;
 	void			*ptr;
 }					t_vector;
+
+typedef enum		e_alloc_type
+{
+	ALLOC_MMAP,
+	ALLOC_MALLOC
+}					t_alloc_type;
+
+typedef struct		s_circ_buffer
+{
+	uint32_t		write_idx;
+	uint32_t		read_idx;
+	uint32_t		n;
+	uint64_t		type;
+	uint64_t		elems;
+	void			*ptr;
+	void			(*trash_callback)(void*, void*);
+	void			*data;
+	t_alloc_type	alloc;
+}					t_circ_buffer;
 
 typedef struct		s_gnl_stack
 {
@@ -164,8 +185,8 @@ size_t				ft_nbrlen(int nbr);
 size_t				ft_nbrlen_base(int nbr, int base);
 int					ft_tolower(int c);
 int					ft_toupper(int c);
-void				ft_strtolower(char *str);
-void				ft_strtoupper(char *str);
+char				*ft_strtolower(char *str);
+char				*ft_strtoupper(char *str);
 
 /*
 **	write functions
@@ -263,12 +284,26 @@ void				ft_lstsort(t_list *head, int (*sort)(void*, void*));
 
 void				ft_vector_init(t_vector *vector, size_t type);
 void				ft_vector_del(t_vector *vector);
-
 void				ft_vector_add(t_vector *vector, void *ptr);
 void				ft_vector_del_one(t_vector *vector, size_t i);
 void				*ft_vector_get(t_vector *vector, size_t n);
 void				ft_vector_printhex(t_vector *vector);
 void				ft_vector_resize(t_vector *vector, size_t new_size);
+
+/*
+**	circular buffer functions
+*/
+
+void				ft_circ_buffer_init(t_circ_buffer *buffer,
+					t_alloc_type alloc, uint64_t type_size,
+					uint64_t n_elements);
+void				ft_circ_buffer_del(t_circ_buffer *buffer);
+void				ft_circ_buffer_enqueue(t_circ_buffer *buffer, void *data);
+void				*ft_circ_buffer_dequeue(t_circ_buffer *dequeue);
+void				*ft_circ_buffer_get(t_circ_buffer *buffer, uint32_t idx);
+uint64_t			ft_circ_buffer_get_size(t_circ_buffer *buffer);
+void				ft_circ_buffer_set_trash_callback(t_circ_buffer *buffer,
+					void (*callback)(void*, void*), void *data);
 
 /*
 **	string functions
