@@ -6,7 +6,7 @@
 /*   By: pribault <pribault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/03 16:13:23 by pribault          #+#    #+#             */
-/*   Updated: 2018/03/31 00:43:01 by pribault         ###   ########.fr       */
+/*   Updated: 2018/03/31 17:01:29 by pribault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@
 
 # define DEFAULT_VECTOR	(t_vector){0, 0, 0, NULL}
 
-# define DEFAULT_BUFFER	(t_circ_buffer){0, 0, 0, 0, 0, NULL, NULL, NULL,\
-						ALLOC_MALLOC}
+# define DEFAULT_BUFFER	(t_circ_buffer){0, 0, 0, 0, 0, 0, 0, 0, ALLOC_MALLOC}
 
 /*
 ** structures

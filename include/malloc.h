@@ -6,7 +6,7 @@
 /*   By: pribault <pribault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/07 09:58:00 by pribault          #+#    #+#             */
-/*   Updated: 2018/03/31 00:54:18 by pribault         ###   ########.fr       */
+/*   Updated: 2018/03/31 11:51:20 by pribault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,7 @@ void		show_alloc_mem(void);
 void		show_alloc_mem_ex(void);
 
 void		malloc_print_logs(void);
+
+void		malloc_set_env(char **env);
 
 #endif

@@ -1,6 +1,6 @@
 NAME = libft.a
 LIBSO = $(NAME:%.a=%.so)
-CC = clang
+CC = gcc
 SRC =	char.c ft_printf.c\
 		if_forest.c long.c\
 		number.c other.c\

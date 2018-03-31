@@ -1,5 +1,5 @@
 NAME = libft.a
-CC = clang
+CC = gcc
 SRC =	ft_abs.c\
 		ft_add_errors.c\
 		ft_alloc_array.c\

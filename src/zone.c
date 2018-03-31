@@ -6,7 +6,7 @@
 /*   By: pribault <pribault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/03 09:37:43 by pribault          #+#    #+#             */
-/*   Updated: 2018/03/31 00:43:24 by pribault         ###   ########.fr       */
+/*   Updated: 2018/03/31 15:41:08 by pribault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_zone	*create_zone(size_t size, char *name)
 		malloc_error(ERROR_MMAP, NULL);
 		return (NULL);
 	}
-	malloc_log(LOG_MMAP, size);
+	malloc_log(LOG_MMAP, (uint64_t)zone, size);
 	zone->size = size - sizeof(t_zone);
 	zone->next = NULL;
 	zone->name = name;
@@ -41,7 +41,7 @@ void	*get_allocation(t_zone *zone, size_t size)
 
 	if (!zone)
 		return (NULL);
-	alloc = (void*)&zone[1];
+	alloc = get_in_zone(zone, (void*)&zone[1], sizeof(t_alloc));
 	while (alloc)
 	{
 		if (alloc->type == TYPE_FREE && size < alloc->size)
@@ -49,7 +49,8 @@ void	*get_allocation(t_zone *zone, size_t size)
 			claim_allocation(alloc, size);
 			return (&alloc[1]);
 		}
-		alloc = get_in_zone(zone, (void*)&alloc[1] + alloc->size, size);
+		alloc = get_in_zone(zone, (void*)&alloc[1] + alloc->size,
+		sizeof(t_alloc));
 	}
 	return (NULL);
 }

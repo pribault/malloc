@@ -6,7 +6,7 @@
 /*   By: pribault <pribault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/26 19:37:34 by pribault          #+#    #+#             */
-/*   Updated: 2018/03/31 00:35:40 by pribault         ###   ########.fr       */
+/*   Updated: 2018/03/31 16:43:07 by pribault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ void	ft_circ_buffer_init(t_circ_buffer *buffer, t_alloc_type alloc,
 	buffer->alloc = alloc;
 	if (alloc == ALLOC_MALLOC)
 	{
-		if (!(buffer->ptr = malloc(type_size * n_elements)))
+		if (!(buffer->ptr = malloc(buffer->type * buffer->elems)))
 			ft_error(2, ERROR_ALLOCATION, NULL);
 	}
 	else if (alloc == ALLOC_MMAP)
 	{
-		if (!(buffer->ptr = mmap(NULL, type_size * n_elements,
+		if (!(buffer->ptr = mmap(NULL, buffer->type * buffer->elems,
 			PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANON, -1, 0)))
 			ft_error(2, ERROR_ALLOCATION, NULL);
 	}
