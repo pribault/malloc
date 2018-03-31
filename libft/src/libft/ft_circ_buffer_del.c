@@ -1,36 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_toupper.c                                       :+:      :+:    :+:   */
+/*   ft_circ_buffer_del.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pribault <pribault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/05 16:04:07 by pribault          #+#    #+#             */
-/*   Updated: 2017/09/02 05:13:58 by pribault         ###   ########.fr       */
+/*   Created: 2018/03/26 19:37:42 by pribault          #+#    #+#             */
+/*   Updated: 2018/03/31 00:37:51 by pribault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strtoupper(char *str)
+void	ft_circ_buffer_del(t_circ_buffer *buffer)
 {
-	char	*ret;
-
-	if (!str)
-		return (NULL);
-	ret = str;
-	while (*str)
+	if (buffer->ptr)
 	{
-		*str = ft_toupper(*str);
-		str++;
+		if (buffer->alloc == ALLOC_MALLOC)
+			ft_memdel(&buffer->ptr);
+		else if (buffer->alloc == ALLOC_MMAP)
+			munmap(buffer->ptr, buffer->type * buffer->elems);
 	}
-	return (ret);
-}
-
-int		ft_toupper(int c)
-{
-	if (c >= 'a' && c <= 'z')
-		return (c - 'a' + 'A');
-	else
-		return (c);
+	buffer->elems = 0;
+	buffer->type = 0;
+	buffer->write_idx = 0;
+	buffer->read_idx = 0;
 }

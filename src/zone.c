@@ -6,7 +6,7 @@
 /*   By: pribault <pribault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/03 09:37:43 by pribault          #+#    #+#             */
-/*   Updated: 2018/03/11 19:33:27 by pribault         ###   ########.fr       */
+/*   Updated: 2018/03/31 00:43:24 by pribault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_zone	*create_zone(size_t size, char *name)
 		malloc_error(ERROR_MMAP, NULL);
 		return (NULL);
 	}
+	malloc_log(LOG_MMAP, size);
 	zone->size = size - sizeof(t_zone);
 	zone->next = NULL;
 	zone->name = name;

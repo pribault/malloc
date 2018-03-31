@@ -6,7 +6,7 @@
 /*   By: pribault <pribault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/07 14:34:59 by pribault          #+#    #+#             */
-/*   Updated: 2018/03/11 21:46:56 by pribault         ###   ########.fr       */
+/*   Updated: 2018/03/31 00:42:09 by pribault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,7 @@ void	*realloc_in_zone(t_zone *zone, t_alloc *prev, t_alloc *alloc,
 		size_t size);
 t_bool	free_in_zones(t_zone *zone, void *ptr);
 t_bool	free_in_zone(t_zone *zone, void *ptr);
+
+void	malloc_log(t_log_type type, uint64_t value);
 
 #endif

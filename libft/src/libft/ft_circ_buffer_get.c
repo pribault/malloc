@@ -1,36 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_toupper.c                                       :+:      :+:    :+:   */
+/*   ft_circ_buffer_get.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pribault <pribault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/05 16:04:07 by pribault          #+#    #+#             */
-/*   Updated: 2017/09/02 05:13:58 by pribault         ###   ########.fr       */
+/*   Created: 2018/03/27 14:36:53 by pribault          #+#    #+#             */
+/*   Updated: 2018/03/27 14:38:59 by pribault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strtoupper(char *str)
+void	*ft_circ_buffer_get(t_circ_buffer *buffer, uint32_t idx)
 {
-	char	*ret;
-
-	if (!str)
-		return (NULL);
-	ret = str;
-	while (*str)
+	if (idx < buffer->n)
 	{
-		*str = ft_toupper(*str);
-		str++;
+		if (buffer->read_idx + idx < buffer->elems)
+			return (buffer->ptr + (buffer->read_idx + idx) * buffer->type);
+		return (buffer->ptr + (buffer->read_idx + idx - buffer->elems) *
+		buffer->type);
 	}
-	return (ret);
-}
-
-int		ft_toupper(int c)
-{
-	if (c >= 'a' && c <= 'z')
-		return (c - 'a' + 'A');
-	else
-		return (c);
+	return (NULL);
 }

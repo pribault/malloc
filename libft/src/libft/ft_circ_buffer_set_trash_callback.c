@@ -1,36 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_toupper.c                                       :+:      :+:    :+:   */
+/*   ft_circ_buffer_set_trash_callback.c                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pribault <pribault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/05 16:04:07 by pribault          #+#    #+#             */
-/*   Updated: 2017/09/02 05:13:58 by pribault         ###   ########.fr       */
+/*   Created: 2018/03/28 11:49:16 by pribault          #+#    #+#             */
+/*   Updated: 2018/03/28 12:48:29 by pribault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strtoupper(char *str)
+void	ft_circ_buffer_set_trash_callback(t_circ_buffer *buffer,
+		void (*callback)(void*, void*), void *data)
 {
-	char	*ret;
-
-	if (!str)
-		return (NULL);
-	ret = str;
-	while (*str)
-	{
-		*str = ft_toupper(*str);
-		str++;
-	}
-	return (ret);
-}
-
-int		ft_toupper(int c)
-{
-	if (c >= 'a' && c <= 'z')
-		return (c - 'a' + 'A');
-	else
-		return (c);
+	buffer->trash_callback = callback;
+	buffer->data = data;
 }

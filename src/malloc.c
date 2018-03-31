@@ -6,12 +6,11 @@
 /*   By: pribault <pribault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/07 09:58:06 by pribault          #+#    #+#             */
-/*   Updated: 2018/03/10 15:19:11 by pribault         ###   ########.fr       */
+/*   Updated: 2018/03/31 00:56:36 by pribault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prototypes.h"
-#include <stdio.h>
 
 t_env	g_env = {NULL, NULL, NULL, PTHREAD_MUTEX_INITIALIZER,
 	{
@@ -21,7 +20,9 @@ t_env	g_env = {NULL, NULL, NULL, PTHREAD_MUTEX_INITIALIZER,
 		"\e[0m",
 		"\e[38;5;250m",
 		"\e[38;5;14m",
-		"\e[38;5;240m"}
+		"\e[38;5;240m"
+	},
+	DEFAULT_BUFFER
 };
 
 void	*unlock_and_return(void *ptr)
@@ -32,9 +33,10 @@ void	*unlock_and_return(void *ptr)
 
 void	*malloc(size_t size)
 {
-	if (!size)
-		return (NULL);
 	pthread_mutex_lock(&g_env.mutex);
+	malloc_log(LOG_MALLOC_REQUEST, size);
+	if (!size)
+		return (unlock_and_return(NULL));
 	if (size <= TINY)
 	{
 		if (!g_env.tiny)
@@ -47,14 +49,10 @@ void	*malloc(size_t size)
 			g_env.small = create_zone(SMALL * ALLOCS, "SMALL");
 		return (unlock_and_return(allocate_in_zone(g_env.small, size)));
 	}
-	else
-	{
-		if (!g_env.large)
-			return (unlock_and_return(get_allocation(g_env.large =
-			create_zone(size, "LARGE"), size)));
-			return (unlock_and_return(allocate_large(g_env.large, size)));
-	}
-	return (unlock_and_return(NULL));
+	if (!g_env.large)
+		return (unlock_and_return(get_allocation(g_env.large =
+		create_zone(size, "LARGE"), size)));
+	return (unlock_and_return(allocate_large(g_env.large, size)));
 }
 
 void	*realloc(void *ptr, size_t size)

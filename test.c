@@ -1,36 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_toupper.c                                       :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pribault <pribault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/05 16:04:07 by pribault          #+#    #+#             */
-/*   Updated: 2017/09/02 05:13:58 by pribault         ###   ########.fr       */
+/*   Created: 2018/03/31 00:17:08 by pribault          #+#    #+#             */
+/*   Updated: 2018/03/31 00:54:33 by pribault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "malloc.h"
 #include "libft.h"
 
-char	*ft_strtoupper(char *str)
+int	main(void)
 {
-	char	*ret;
+	void	*ptr;
 
-	if (!str)
-		return (NULL);
-	ret = str;
-	while (*str)
-	{
-		*str = ft_toupper(*str);
-		str++;
-	}
-	return (ret);
-}
-
-int		ft_toupper(int c)
-{
-	if (c >= 'a' && c <= 'z')
-		return (c - 'a' + 'A');
-	else
-		return (c);
+	for (int i = 0; i < 1; i++)
+	ptr = malloc(1);
+	malloc_print_logs();
+	return (0);
 }
