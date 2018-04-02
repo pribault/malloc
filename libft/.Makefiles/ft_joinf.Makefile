@@ -1,6 +1,6 @@
 NAME = libft.a
 LIBSO = $(NAME:%.a=%.so)
-CC = gcc
+CC = clang
 SRC =	ft_joinf.c\
 		number_join.c string_join.c\
 		unsigned_join.c pointer_join.c
