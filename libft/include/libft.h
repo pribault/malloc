@@ -6,7 +6,7 @@
 /*   By: pribault <pribault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/03 16:13:23 by pribault          #+#    #+#             */
-/*   Updated: 2018/03/31 17:01:29 by pribault         ###   ########.fr       */
+/*   Updated: 2018/05/02 16:25:06 by pribault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,35 @@
 
 # define FLAG_PARAM_MAX	4
 
-# define DEFAULT_VECTOR	(t_vector){0, 0, 0, NULL}
+# define DEFAULT_VECTOR	(t_vector){0, 0, 0, 0, ALLOC_MALLOC}
 
 # define DEFAULT_BUFFER	(t_circ_buffer){0, 0, 0, 0, 0, 0, 0, 0, ALLOC_MALLOC}
+
+# define COLOR(r, g, b)	(t_color){r, g, b}
 
 /*
 ** structures
 */
+
+typedef enum		e_color_effect
+{
+	EFFECT_RESET = 0,
+	EFFECT_BOLD = 1,
+	EFFECT_HALFED = 2,
+	EFFECT_ITALIC = 3,
+	EFFECT_UNDERLINED = 4,
+	EFFECT_BLINK = 5,
+	EFFECT_NONE = 6,
+	EFFECT_REVERTED = 7,
+	EFFECT_NOBACK = 8
+}					t_color_effect;
+
+typedef struct		s_color
+{
+	uint8_t			r;
+	uint8_t			g;
+	uint8_t			b;
+}					t_color;
 
 typedef struct		s_list
 {
@@ -57,19 +79,20 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
+typedef enum		e_alloc_type
+{
+	ALLOC_MALLOC,
+	ALLOC_MMAP
+}					t_alloc_type;
+
 typedef struct		s_vector
 {
 	size_t			size;
 	size_t			type;
 	size_t			n;
 	void			*ptr;
+	t_alloc_type	alloc;
 }					t_vector;
-
-typedef enum		e_alloc_type
-{
-	ALLOC_MMAP,
-	ALLOC_MALLOC
-}					t_alloc_type;
 
 typedef struct		s_circ_buffer
 {
@@ -179,6 +202,8 @@ void				ft_bzero(void *s, size_t n);
 char				*ft_execute(char *file, char **arg, char **env);
 char				ft_get_all_lines(int fd, char **str);
 int					ft_get_next_line(int const fd, char **line);
+char				*ft_get_term_color(t_color front, t_color back,
+					t_color_effect effect);
 char				*ft_itoa(int n);
 char				*ft_itoa_base(int n, char *base);
 size_t				ft_nbrlen(int nbr);
@@ -249,6 +274,8 @@ void				ft_memdel(void **ap);
 void				ft_memdump(void *ptr, size_t size);
 void				*ft_memdup(void *ptr, size_t size);
 void				*ft_memmove(void *dst, const void *src, size_t len);
+void				*ft_memschr(const void *big, const void *little,
+					size_t n1, size_t n2);
 void				*ft_memset(void *b, int c, size_t len);
 
 /*
@@ -282,10 +309,12 @@ void				ft_lstsort(t_list *head, int (*sort)(void*, void*));
 **	vector functions
 */
 
-void				ft_vector_init(t_vector *vector, size_t type);
+void				ft_vector_init(t_vector *vector, t_alloc_type alloc,
+					size_t type);
 void				ft_vector_del(t_vector *vector);
 void				ft_vector_add(t_vector *vector, void *ptr);
 void				ft_vector_del_one(t_vector *vector, size_t i);
+size_t				ft_vector_find(t_vector *vector, void *ptr);
 void				*ft_vector_get(t_vector *vector, size_t n);
 void				ft_vector_printhex(t_vector *vector);
 void				ft_vector_resize(t_vector *vector, size_t new_size);
@@ -312,6 +341,8 @@ void				ft_circ_buffer_set_trash_callback(t_circ_buffer *buffer,
 char				*ft_get_file_name_from_path(char *path);
 char				*ft_getenv(char **env, char *name);
 char				**ft_multisplit(char *str, char *sep);
+char				**ft_multisplit_stop(char *str, char *sep, char *stop);
+char				*ft_reduce_path(char *path);
 char				*ft_strcat(char *s1, const char *s2);
 char				*ft_strchr(const char *s, int c);
 void				ft_strclr(char *s);
